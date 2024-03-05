@@ -1,0 +1,56 @@
+<!DOCTYPE data-dictionary SYSTEM "data-dictionary.dtd">
+<data-dictionary name="DISTDBMI">
+    <table name = "Errorlogs">
+        <columns>
+            <column name= "errorid">
+                <data-type>SERIAL</data-type>
+            </column>
+            <column	name = "serviceId">
+                <data-type>UUID</data-type>
+                <nullable>false</nullable>
+            </column>
+            <column name = "ipaddress">
+                <data-type>CHAR</data-type>
+                <max-size>300</max-size>
+            </column>
+            <column	name = "databasename">
+                <data-type>CHAR</data-type>
+                <max-size>500</max-size>
+                <nullable>false</nullable>
+            </column>
+            <column name="log_time">
+                <data-type>TIMESTAMP</data-type>
+                <nullable>false</nullable>
+            </column>
+            <column	name = "error">
+                <data-type>CHAR</data-type>
+                <max-size>50000</max-size>
+            </column>
+            <column	name = "detail">
+                <data-type>CHAR</data-type>
+                <max-size>50000</max-size>
+            </column>
+            <column	name = "detail_log">
+                <data-type>CHAR</data-type>
+                <max-size>50000</max-size>
+            </column>
+            <column	name = "hint">
+                <data-type>CHAR</data-type>
+                <max-size>50000</max-size>
+            </column>
+            <column name = "process_type">
+                <data-type>CHAR</data-type>
+                <max-size>300</max-size>
+            </column>
+        </columns>
+        <primary-key name="Errorlogs_PK">
+            <primary-key-column>errorid</primary-key-column>
+        </primary-key>
+    </table>
+    <table name="samp">
+        <columns>
+            <column name="Data">
+            </column>
+        </columns>
+    </table>
+</data-dictionary>
