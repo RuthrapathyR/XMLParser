@@ -67,6 +67,7 @@
     </target>
 
     <target name="run-jar">
+        <antcall target="make-app-jar"/>
         <!-- Runs a JAR file directly. Assumes the JAR's manifest specifies the Main-Class -->
         <java jar="${appjar}" fork="true">
             <arg value="${DDFilePath}"/>
