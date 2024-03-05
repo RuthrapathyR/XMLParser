@@ -23,7 +23,7 @@ public class XMLParser {
             documentBuilderFactory.setValidating(false);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
-            Document document = documentBuilder.parse(new File("./DB.xml"));
+            Document document = documentBuilder.parse(new File(args[0]));
 
             Element root = document.getDocumentElement();
 

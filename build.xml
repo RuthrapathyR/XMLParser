@@ -6,6 +6,7 @@
     <property name="build.dir" value="classes"/>
     <property name="main.class" value="com.pkg.xmlparser.XMLParser"/>
     <property name="subdir" value="result"/>
+    <property name="appjar" value="App.jar"/>
     <property name="jar.name" value="DistDBDD.jar"/>
 
 
@@ -24,6 +25,7 @@
     <!-- Clean up build directories -->
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${subdir}"/>
     </target>
 
     <!-- Compile the Java source code -->
@@ -61,5 +63,24 @@
             </manifest>
             -->
         </jar>
+        <antcall target="clean"/>
     </target>
+
+    <target name="run-jar">
+        <!-- Runs a JAR file directly. Assumes the JAR's manifest specifies the Main-Class -->
+        <java jar="${appjar}" fork="true">
+            <arg value="${DDFilePath}"/>
+        </java>
+        <antcall target="jar"/>
+    </target>
+
+    <target name="make-app-jar" depends="compile">
+        <jar destfile="${appjar}" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    
 </project>
