@@ -30,7 +30,7 @@ public class XMLParser {
             NodeList nList = root.getElementsByTagName("table");
 
              // Define the path to the directory
-            String resultRootDirectory = "result"+File.separator;
+            String resultRootDirectory = "result"+File.separator+"src"+File.separator;
             String directoryPath = resultRootDirectory + "com" + File.separator + 
             "zlabs" + File.separator + 
             "distdb" + File.separator + 

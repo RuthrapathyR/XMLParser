@@ -5,6 +5,10 @@
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="classes"/>
     <property name="main.class" value="com.pkg.xmlparser.XMLParser"/>
+    <property name="subdir" value="result"/>
+    <property name="jar.name" value="DistDBDD.jar"/>
+
+
     
     <!-- Optionally, define the classpath -->
     <path id="classpath">
@@ -14,6 +18,7 @@
     <!-- Initialize directory structure -->
     <target name="init">
         <mkdir dir="${build.dir}"/>
+        <mkdir dir="${subdir}/${build.dir}"/>
     </target>
 
     <!-- Clean up build directories -->
@@ -28,12 +33,30 @@
         </javac>
     </target>
 
+
+    <!-- Compile the Result Java source code -->
+    <target name="resultCompile" depends="init">
+        <javac srcdir="${subdir}/${src.dir}" destdir="${subdir}/${build.dir}" includeantruntime="false">            
+        </javac>
+    </target>
+
     <!-- Run the Java application -->
     <target name="run" depends="compile">
-        <java classname="${main.class}" fork="true" classpath="${build.dir}">
+        <java classname="${main.class}" classpath="${build.dir}">
             <!-- You can specify arguments here if your application requires them -->
             <!-- <arg value="arg1"/> -->
         </java>
     </target>
 
+
+    <!-- To make the result compiles classes as Jar -->
+    <target name="jar" depends="compile">
+        <jar destfile="${jar.name}" basedir="${subdir}/${build.dir}">
+            <!-- If you have a manifest file, include it like this:
+            <manifest>
+                <attribute name="Main-Class" value="com.example.MainClass"/>
+            </manifest>
+            -->
+        </jar>
+    </target>
 </project>
