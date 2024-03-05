@@ -45,12 +45,15 @@
         <java classname="${main.class}" classpath="${build.dir}">
             <!-- You can specify arguments here if your application requires them -->
             <!-- <arg value="arg1"/> -->
-        </java>
+            <arg value="${DDFilePath}"/>
+        </java>        
     </target>
 
 
     <!-- To make the result compiles classes as Jar -->
     <target name="jar" depends="compile">
+        <antcall target="run"/>
+        <antcall target="resultCompile"/>
         <jar destfile="${jar.name}" basedir="${subdir}/${build.dir}">
             <!-- If you have a manifest file, include it like this:
             <manifest>
