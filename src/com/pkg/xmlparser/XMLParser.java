@@ -23,49 +23,52 @@ public class XMLParser {
             documentBuilderFactory.setValidating(false);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
-            Document document = documentBuilder.parse(new File(args[0]));
+            String[] files = args[0].split(",");
+            for(int file = 0;file <= files.length;file++){
+                Document document = documentBuilder.parse(new File(files[file]));
 
-            Element root = document.getDocumentElement();
-
-            NodeList nList = root.getElementsByTagName("table");
-
-             // Define the path to the directory
-            String resultRootDirectory = "result"+File.separator+"src"+File.separator;
-            String directoryPath = resultRootDirectory + "com" + File.separator + 
-            "zlabs" + File.separator + 
-            "distdb" + File.separator + 
-            "ddtables" + File.separator + 
-            "distdbmi";
-
-            // Create a File object for the directory
-            File directories = new File(directoryPath);
-
-            if(!directories.exists()){
-                System.out.println("Result Directory not existes so creating");
-                directories.mkdirs();
-            }
-
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node node = nList.item(i);
-
-                Element element = (Element) node;
-                String tableName = element.getAttribute("name");
-                ArrayList<String> columns = new ArrayList<>();
-                NodeList clList = element.getElementsByTagName("column");
-                for (int k = 0; k < clList.getLength(); k++) {
-                    NamedNodeMap f = clList.item(k).getAttributes();
-                    for (int a = 0; a < f.getLength(); a++) {
-                        columns.add(f.item(a).getNodeValue().toUpperCase());
-                    }
+                Element root = document.getDocumentElement();
+    
+                NodeList nList = root.getElementsByTagName("table");
+    
+                 // Define the path to the directory
+                String resultRootDirectory = "result"+File.separator+"src"+File.separator;
+                String directoryPath = resultRootDirectory + "com" + File.separator + 
+                "zlabs" + File.separator + 
+                "distdb" + File.separator + 
+                "ddtables" + File.separator + 
+                "distdbmi";
+    
+                // Create a File object for the directory
+                File directories = new File(directoryPath);
+    
+                if(!directories.exists()){
+                    System.out.println("Result Directory not existes so creating");
+                    directories.mkdirs();
                 }
-                dbSchema.put(tableName.toUpperCase(), columns);
-            }
-                        
-            List<String> keySet = new ArrayList<>(dbSchema.keySet());
-            for(String key : keySet){
-                FileCreate fileCreate = new FileCreate();
-                fileCreate.setTemplate(key, dbSchema.get(key));
-                fileCreate.createFile(key+".java");
+    
+                for (int i = 0; i < nList.getLength(); i++) {
+                    Node node = nList.item(i);
+    
+                    Element element = (Element) node;
+                    String tableName = element.getAttribute("name");
+                    ArrayList<String> columns = new ArrayList<>();
+                    NodeList clList = element.getElementsByTagName("column");
+                    for (int k = 0; k < clList.getLength(); k++) {
+                        NamedNodeMap f = clList.item(k).getAttributes();
+                        for (int a = 0; a < f.getLength(); a++) {
+                            columns.add(f.item(a).getNodeValue().toUpperCase());
+                        }
+                    }
+                    dbSchema.put(tableName.toUpperCase(), columns);
+                }
+                            
+                List<String> keySet = new ArrayList<>(dbSchema.keySet());
+                for(String key : keySet){
+                    FileCreate fileCreate = new FileCreate();
+                    fileCreate.setTemplate(key, dbSchema.get(key));
+                    fileCreate.createFile(key+".java");
+                }
             }
 
         } catch (Exception e) {
