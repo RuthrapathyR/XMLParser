@@ -4,8 +4,10 @@
 package com.pkg.xmlparser;
 
 import org.w3c.dom.*;
+
+import src.com.pkg.fileOperations.FileCreate;
+
 import java.io.*;
-import java.util.HashMap;
 
 import javax.xml.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -27,6 +29,22 @@ public class XMLParser {
 
             NodeList nList = root.getElementsByTagName("table");
 
+             // Define the path to the directory
+            String resultRootDirectory = "result"+File.separator;
+            String directoryPath = resultRootDirectory + "com" + File.separator + 
+            "zlabs" + File.separator + 
+            "distdb" + File.separator + 
+            "ddtables" + File.separator + 
+            "distdbmi";
+
+            // Create a File object for the directory
+            File directories = new File(directoryPath);
+
+            if(!directories.exists()){
+                System.out.println("Result Directory not existes so creating");
+                directories.mkdirs();
+            }
+
             for (int i = 0; i < nList.getLength(); i++) {
                 Node node = nList.item(i);
 
@@ -37,14 +55,21 @@ public class XMLParser {
                 for (int k = 0; k < clList.getLength(); k++) {
                     NamedNodeMap f = clList.item(k).getAttributes();
                     for (int a = 0; a < f.getLength(); a++) {
-                        columns.add(f.item(a).getNodeValue());
+                        columns.add(f.item(a).getNodeValue().toUpperCase());
                     }
                 }
-                dbSchema.put(tableName, columns);
+                dbSchema.put(tableName.toUpperCase(), columns);
             }
-            System.out.println(dbSchema.toString());
+                        
+            List<String> keySet = new ArrayList<>(dbSchema.keySet());
+            for(String key : keySet){
+                FileCreate fileCreate = new FileCreate();
+                fileCreate.setTemplate(key, dbSchema.get(key));
+                fileCreate.createFile(key+".java");
+            }
+
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Exception while creating file from dd.xml "+e);
         }
     }
 
