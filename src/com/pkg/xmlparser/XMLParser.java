@@ -24,7 +24,7 @@ public class XMLParser {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
             String[] files = args[0].split(",");
-            for(int file = 0;file <= files.length;file++){
+            for(int file = 0;file < files.length;file++){
                 Document document = documentBuilder.parse(new File(files[file]));
 
                 Element root = document.getDocumentElement();

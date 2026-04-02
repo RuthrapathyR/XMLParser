@@ -31,6 +31,8 @@ public class FileCreate {
         template += "package com.zlabs.distdb.ddtables.distdbmi;\n\n";                    
         template += "public final class "+tableName+"{\n";
 
+        template += " \tpublic static final String TABLE = " + "\""+tableName+"\";\n";
+
         for(int i = 0;i < columns.size();i++){
             template += " \tpublic static final String "+columns.get(i)+" = " + "\""+columns.get(i)+"\";\n";
             template += " \tpublic static final int "+columns.get(i)+"_IDX = "+String.valueOf(i)+";\n";
